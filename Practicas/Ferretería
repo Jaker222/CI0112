@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class Ferretería {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Almacen almacen = new Almacen();
+
+        Tabla tablaEstandar = new Tabla(4, 6);
+        almacen.agregarTabla(tablaEstandar);
+
+        while (true) {
+            System.out.println("\n --- Nuevo Cliente --- ");
+            System.out.println("Ingrese ancho deseado (0 para salir): ")
+            double anchoPedido = scanner.nextDouble();
+            if (anchoPedido == 0) {
+                break;
+            }
+
+            System.out.println("Ingrese largo deseado: ");
+            double largoPedido = scanner.nextDouble();
+
+            if(anchoPedido > 4 || largoPedido > 6) {
+                System.out.println("La ferretería no puede fabricar una tabla de ese tamaño.");
+                continue;
+            }
+
+            Tabla tablaElegida = almacen.buscarTabla(anchoPedido, largoPedido);
+
+            if (tablaElegida == null) {
+                System.out.println("No había tabla disponible, se agregó una nueva tabla estándar.")
+                tablaElegida = new tabla (4, 6);
+            }
+
+            Tabla tablaCliente = tablaElegida.cortar(anchoPedido, largoPedido);
+            if (tablaCliente != null) {
+                System.out.println("Tabla entregada al cliente: ");
+                System.out.println(tablaCliente.mostrarInfo());
+
+                if (tablaElegida.getAncho() > 0 && tablaElegida.getLargo() > 0) {
+                    almacen.agregarTabla(tablaElegida);
+                }
+            } else {
+                System.out.println("No fue posible cortar la tabla solicitada.");
+            }
+        }
+        System.out.println("\n No hay más clientes. Fin del programa.");
+    }
+}
